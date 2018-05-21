@@ -116,7 +116,7 @@ def __init__(self, *args):
     fromSpecRowCols = True
 
   if (len(args) == 1):
-    if isinstance(args[0], basestring):
+    if isinstance(args[0], str):
       serialized = args[0]
       args = tuple()
     elif isinstance(args[0], numpy.ndarray):
@@ -2664,7 +2664,7 @@ def __init__(self, *args):
   dense = None
   toCopy = None
   if (len(args) == 1):
-    if isinstance(args[0], basestring):
+    if isinstance(args[0], str):
       serialized = args[0]
       args = tuple()
     elif isinstance(args[0], numpy.ndarray):
@@ -2685,7 +2685,7 @@ def __init__(self, *args):
   elif serialized is not None:
     s = serialized.split(None, 1)
     if s[0] != 'csr' and s[0] != 'sm_csr_1.5':
-      raise "Wrong CSR format, should start with 'csr' or 'sm_csr_1.5'"
+      raise Exception("Wrong CSR format, should start with 'csr' or 'sm_csr_1.5'")
     self.fromPyString(serialized)
   elif dense is not None:
     self.fromDense(numpy.asarray(dense,dtype=GetNumpyDataType('NTA_Real' + #N2)))
@@ -2949,7 +2949,7 @@ inline PyObject *_find_connected_components2(const TSM &sm)
 
 def __init__(self, *args):
     if len(args) == 1:
-        if isinstance(args[0], basestring):
+        if isinstance(args[0], str):
             self.this = _MATH.new__SM_01_32_16(1)
             self.fromCSR(args[0])
         elif isinstance(args[0], numpy.ndarray) or hasattr(args[0], '__iter__'):
@@ -3457,7 +3457,7 @@ def read(self, proto):
 %pythoncode %{
 def __init__(self, *args):
     if len(args) == 1:
-        if isinstance(args[0], basestring):
+        if isinstance(args[0], str):
             self.this = _MATH.new__SM_01_32_32(1)
             self.fromCSR(args[0])
         elif isinstance(args[0], numpy.ndarray) or hasattr(args[0], '__iter__'):
@@ -4011,7 +4011,7 @@ def read(self, proto):
 
 def __init__(self, *args):
     if len(args) == 1:
-        if isinstance(args[0], basestring):
+        if isinstance(args[0], str):
             self.this = _MATH.new__SM_RLE_16_8()
             self.fromCSR(args[0])
         elif isinstance(args[0], numpy.ndarray) or hasattr(args[0], '__iter__'):
@@ -4128,7 +4128,7 @@ def __setstate__(self, inString):
 
 def __init__(self, *args):
     if len(args) == 1:
-        if isinstance(args[0], basestring):
+        if isinstance(args[0], str):
             self.this = _MATH.new__SM_RLE_16_16()
             self.fromCSR(args[0])
         elif isinstance(args[0], numpy.ndarray) or hasattr(args[0], '__iter__'):
@@ -4247,7 +4247,7 @@ def __setstate__(self, inString):
 
 def __init__(self, *args):
     if len(args) == 1:
-        if isinstance(args[0], basestring):
+        if isinstance(args[0], str):
             self.this = _MATH.new__SM_RLE_32_32()
             self.fromCSR(args[0])
         elif isinstance(args[0], numpy.ndarray) or hasattr(args[0], '__iter__'):

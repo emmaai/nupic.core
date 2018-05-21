@@ -1425,11 +1425,11 @@ void forceRetentionOfImageSensorLiteLibrary(void) {
           if v - noneSentinel < 0.00001:
             result["actualValues"][i] = None
       arrayResult = dict((k, numpy.array(v)) if k != "actualValues" else (k, v)
-                         for k, v in result.iteritems())
+                         for k, v in result.items())
 
-      if self.valueToCategory or isinstance(classification["actValue"], basestring):
+      if self.valueToCategory or isinstance(classification["actValue"], str):
         # Convert the bucketIdx back to the original value.
-        for i in xrange(len(arrayResult["actualValues"])):
+        for i in range(len(arrayResult["actualValues"])):
           if arrayResult["actualValues"][i] is not None:
             arrayResult["actualValues"][i] = self.valueToCategory.get(int(
                 arrayResult["actualValues"][i]), classification["actValue"])
