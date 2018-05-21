@@ -45,7 +45,7 @@ else:
 # Capnp reader traveral limit (see capnp::ReaderOptions)
 _TRAVERSAL_LIMIT_IN_WORDS = 1 << 63
 
-_ALGORITHMS = algorithms
+_ALGORITHMS = _algorithms
 %}
 
 %{
