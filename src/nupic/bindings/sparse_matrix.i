@@ -773,8 +773,8 @@ def read(self, proto):
     PyObject* ind_list = PyTuple_New(nnz);
     for (nupic::UInt32 i = 0; i != nnz; ++i) {
       PyObject* idx = PyTuple_New(2);
-      PyTuple_SET_ITEM(idx, 0, PyInt_FromLong(rows[i]));
-      PyTuple_SET_ITEM(idx, 1, PyInt_FromLong(cols[i]));
+      PyTuple_SET_ITEM(idx, 0, PyLong_FromLong(rows[i]));
+      PyTuple_SET_ITEM(idx, 1, PyLong_FromLong(cols[i]));
       PyTuple_SET_ITEM(ind_list, i, idx);
     }
     PyObject* toReturn = PyTuple_New(2);
@@ -1205,8 +1205,8 @@ def read(self, proto):
 
     for (size_t i = 0; i != rows.size(); ++i) {
       PyObject* p = PyTuple_New(2);
-      PyTuple_SET_ITEM(p, 0, PyInt_FromLong(rows[i]));
-      PyTuple_SET_ITEM(p, 1, PyInt_FromLong(cols[i]));
+      PyTuple_SET_ITEM(p, 0, PyLong_FromLong(rows[i]));
+      PyTuple_SET_ITEM(p, 1, PyLong_FromLong(cols[i]));
       PyTuple_SET_ITEM(toReturn, i, p);
     }
 
@@ -1964,7 +1964,7 @@ def read(self, proto):
   {
     Py_ssize_t n = 0;
     char *buf = 0;
-    int res = PyString_AsStringAndSize(s, &buf, &n); // Reference-neutral.
+    int res = PyBytes_AsStringAndSize(s, &buf, &n); // Reference-neutral.
     if((res == 0) && (n > 0)) {
       std::istringstream s(std::string(buf, n));
       self->fromCSR(s);
@@ -2100,7 +2100,7 @@ inline PyObject* binarize_with_threshold(nupic::Real32 threshold, PyObject* py_x
   nupic::UInt32 c =
     nupic::binarize_with_threshold(threshold, begin, end, y.begin(), y.end());
   PyObject* toReturn = PyTuple_New(2);
-  PyTuple_SET_ITEM(toReturn, 0, PyInt_FromLong(c));
+  PyTuple_SET_ITEM(toReturn, 0, PyLong_FromLong(c));
   PyTuple_SET_ITEM(toReturn, 1, y.forPython());
   return toReturn;
 }
@@ -3516,7 +3516,7 @@ def read(self, proto):
   {
     Py_ssize_t n = 0;
     char *buf = 0;
-    int res = PyString_AsStringAndSize(str, &buf, &n);
+    int res = PyBytes_AsStringAndSize(str, &buf, &n);
     if ((res == 0) && (n > 0)) {
       std::istringstream s(std::string(buf, n));
       self->fromCSR(s);
@@ -3557,8 +3557,8 @@ def read(self, proto):
       toReturn = PyTuple_New(nnz);
       for (nupic::UInt32 i = 0; i != nnz; ++i) {
   PyObject* tuple = PyTuple_New(2);
-  PyTuple_SET_ITEM(tuple, 0, PyInt_FromLong(rows.get(i)));
-  PyTuple_SET_ITEM(tuple, 1, PyInt_FromLong(cols.get(i)));
+  PyTuple_SET_ITEM(tuple, 0, PyLong_FromLong(rows.get(i)));
+  PyTuple_SET_ITEM(tuple, 1, PyLong_FromLong(cols.get(i)));
   PyTuple_SET_ITEM(toReturn, i, tuple);
       }
     } else {
@@ -3603,7 +3603,7 @@ def read(self, proto):
     nupic::NumpyVectorT<nupic::UInt32> res(self->nRows());
     nupic::UInt32 count = self->zeroRowsIndicator(res.begin(), res.end());
     PyObject *toReturn = PyTuple_New(2);
-    PyTuple_SET_ITEM(toReturn, 0, PyInt_FromLong(count));
+    PyTuple_SET_ITEM(toReturn, 0, PyLong_FromLong(count));
     PyTuple_SET_ITEM(toReturn, 1, res.forPython());
     return toReturn;
   }
@@ -3613,7 +3613,7 @@ def read(self, proto):
     nupic::NumpyVectorT<nupic::UInt32> res(self->nRows());
     nupic::UInt32 count = self->nonZeroRowsIndicator(res.begin(), res.end());
     PyObject *toReturn = PyTuple_New(2);
-    PyTuple_SET_ITEM(toReturn, 0, PyInt_FromLong(count));
+    PyTuple_SET_ITEM(toReturn, 0, PyLong_FromLong(count));
     PyTuple_SET_ITEM(toReturn, 1, res.forPython());
     return toReturn;
   }
@@ -3738,14 +3738,14 @@ def read(self, proto):
     std::ostringstream s;
     self->toCSR(s);
     std::string str = s.str();
-    return PyString_FromStringAndSize(str.data(), str.size());
+    return PyBytes_FromStringAndSize(str.data(), str.size());
   }
 
   inline void fromCSR(PyObject* str)
   {
     Py_ssize_t n = 0;
     char *buf = 0;
-    int res = PyString_AsStringAndSize(str, &buf, &n); // Reference-neutral.
+    int res = PyBytes_AsStringAndSize(str, &buf, &n); // Reference-neutral.
     if ((res == 0) && (n > 0)) {
       std::istringstream s(std::string(buf, n));
       self->fromCSR(s);
@@ -3766,7 +3766,7 @@ def read(self, proto):
   {
     Py_ssize_t n = 0;
     char *buf = 0;
-    int res = PyString_AsStringAndSize(s, &buf, &n); // Reference-neutral.
+    int res = PyBytes_AsStringAndSize(s, &buf, &n); // Reference-neutral.
     if((res == 0) && (n > 0)) {
       std::istringstream s(std::string(buf, n));
       self->fromCSR(s);
@@ -3946,8 +3946,8 @@ def read(self, proto):
     std::pair<nupic::UInt32, nupic::UInt32> r =
       self->minHammingDistance(x.begin(), x.end());
     PyObject *toReturn = PyTuple_New(2);
-    PyTuple_SET_ITEM(toReturn, 0, PyInt_FromLong(r.first));
-    PyTuple_SET_ITEM(toReturn, 1, PyInt_FromLong(r.second));
+    PyTuple_SET_ITEM(toReturn, 0, PyLong_FromLong(r.first));
+    PyTuple_SET_ITEM(toReturn, 1, PyLong_FromLong(r.second));
     return toReturn;
   }
 
@@ -3955,14 +3955,14 @@ def read(self, proto):
   {
     nupic::NumpyVectorT<nupic::UInt32> x(py_x);
     nupic::UInt32 i = self->firstRowCloserThan(x.begin(), x.end(), distance);
-    return PyInt_FromLong(i);
+    return PyLong_FromLong(i);
   }
 
   inline PyObject* firstRowCloserThan_dense(PyObject* py_x, nupic::UInt32 distance) const
   {
     nupic::NumpyVectorT<nupic::UInt32> x(py_x);
     nupic::UInt32 i = self->firstRowCloserThan_dense(x.begin(), x.end(), distance);
-    return PyInt_FromLong(i);
+    return PyLong_FromLong(i);
   }
 
   inline PyObject* vecMaxProd(PyObject* py_x) const

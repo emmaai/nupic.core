@@ -551,7 +551,7 @@ public:
     for (nupic::UInt32 i = 0; i != nnz; ++i) {
       PyObject *idx = PyTuple_New(rank);
       for (nupic::UInt32 j = 0; j != rank; ++j)
-        PyTuple_SET_ITEM(idx, j, PyInt_FromLong(ind[i][j]));
+        PyTuple_SET_ITEM(idx, j, PyLong_FromLong(ind[i][j]));
       PyTuple_SET_ITEM(ind_list, i, idx);
     }
     PyObject *toReturn = PyTuple_New(2);

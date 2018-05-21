@@ -43,8 +43,8 @@ static std::string getTraceback(PyObject *p) {
 
   while (tb) {
     PyCodeObject *c = tb->tb_frame->f_code;
-    std::string filename(PyString_AsString(c->co_filename));
-    std::string function(PyString_AsString(c->co_name));
+    std::string filename(PyUnicode_AsUTF8(c->co_filename));
+    std::string function(PyUnicode_AsUTF8(c->co_name));
     int lineno = tb->tb_lineno;
     // Read source line from the file (assumes line is shorter than 256)
     char line[256];
@@ -89,7 +89,7 @@ void checkPyError(int lineno) {
   if (exceptionValue) {
     // Extract the exception message as a string
     PyObject *sExcValue = PyObject_Str(exceptionValue);
-    exception = std::string(PyString_AsString(sExcValue));
+    exception = std::string(PyUnicode_AsUTF8(sExcValue));
     traceback = getTraceback(exceptionTraceback);
 
     Py_XDECREF(sExcValue);
@@ -137,8 +137,8 @@ std::string Ptr::getTypeName() {
   std::string result(((PyTypeObject *)t)->tp_name);
   Py_DECREF(t);
 
-  if (PyString_Check(p_)) {
-    result += "\"" + std::string(PyString_AsString(p_)) + "\"";
+  if (PyUnicode_Check(p_)) {
+    result += "\"" + std::string(PyUnicode_AsUTF8(p_)) + "\"";
   }
   return result;
 }
@@ -185,13 +185,13 @@ String::String(const char *s, size_t size, bool allowNULL)
 String::String(const char *s, bool allowNULL)
     : Ptr(createString_(s), allowNULL) {}
 
-String::String(PyObject *p) : Ptr(p) { NTA_CHECK(PyString_Check(p)); }
+String::String(PyObject *p) : Ptr(p) { NTA_CHECK(PyUnicode_Check(p)); }
 
 String::operator const char *() {
   if (!p_)
     return NULL;
 
-  return PyString_AsString(p_);
+  return PyUnicode_AsUTF8(p_);
 }
 
 PyObject *String::createString_(const char *s, size_t size) {
@@ -199,47 +199,47 @@ PyObject *String::createString_(const char *s, size_t size) {
     NTA_CHECK(s) << "The input string must not be NULL when size == 0";
     size = ::strlen(s);
   }
-  return PyString_FromStringAndSize(s, size);
+  return PyUnicode_FromStringAndSize(s, size);
 }
 
 // ---
 // Implementation of Int class
 // ---
-Int::Int(long n) : Ptr(PyInt_FromLong(n)) {}
+Int::Int(long n) : Ptr(PyLong_FromLong(n)) {}
 
-Int::Int(PyObject *p) : Ptr(p) { NTA_CHECK(PyInt_Check(p)); }
+Int::Int(PyObject *p) : Ptr(p) { NTA_CHECK(PyLong_Check(p)); }
 
 Int::operator long() {
   NTA_CHECK(p_);
-  return PyInt_AsLong(p_);
+  return PyLong_AsLong(p_);
 }
 
 // ---
 // Implementation of Long class
 // ---
-Long::Long(long n) : Ptr(PyInt_FromLong(n)) {}
+Long::Long(long n) : Ptr(PyLong_FromLong(n)) {}
 
 Long::Long(PyObject *p) : Ptr(p) {
-  NTA_CHECK(PyLong_Check(p) || PyInt_Check(p));
+  NTA_CHECK(PyLong_Check(p) || PyLong_Check(p));
 }
 
 Long::operator long() {
   NTA_CHECK(p_);
-  return PyInt_AsLong(p_);
+  return PyLong_AsLong(p_);
 }
 
 // ---
 // Implementation of UnsignedLong class
 // ---
-UnsignedLong::UnsignedLong(unsigned long n) : Ptr(PyInt_FromLong((long)n)) {}
+UnsignedLong::UnsignedLong(unsigned long n) : Ptr(PyLong_FromLong((long)n)) {}
 
 UnsignedLong::UnsignedLong(PyObject *p) : Ptr(p) {
-  NTA_CHECK(PyLong_Check(p) || PyInt_Check(p));
+  NTA_CHECK(PyLong_Check(p) || PyLong_Check(p));
 }
 
 UnsignedLong::operator unsigned long() {
   NTA_CHECK(p_);
-  return (unsigned long)PyInt_AsLong(p_);
+  return (unsigned long)PyLong_AsLong(p_);
 }
 
 // ---
@@ -248,7 +248,7 @@ UnsignedLong::operator unsigned long() {
 LongLong::LongLong(long long n) : Ptr(PyLong_FromLongLong(n)) {}
 
 LongLong::LongLong(PyObject *p) : Ptr(p) {
-  NTA_CHECK(PyLong_Check(p) || PyInt_Check(p));
+  NTA_CHECK(PyLong_Check(p) || PyLong_Check(p));
 }
 
 LongLong::operator long long() {
@@ -263,7 +263,7 @@ UnsignedLongLong::UnsignedLongLong(unsigned long long n)
     : Ptr(PyLong_FromUnsignedLongLong(n)) {}
 
 UnsignedLongLong::UnsignedLongLong(PyObject *p) : Ptr(p) {
-  NTA_CHECK(PyLong_Check(p) || PyInt_Check(p));
+  NTA_CHECK(PyLong_Check(p) || PyLong_Check(p));
 }
 
 UnsignedLongLong::operator unsigned long long() {
@@ -274,7 +274,7 @@ UnsignedLongLong::operator unsigned long long() {
 // ---
 // Implementation of Float class
 // ---
-Float::Float(const char *n) : Ptr(PyFloat_FromString(String(n), NULL)) {}
+Float::Float(const char *n) : Ptr(PyFloat_FromString(String(n))) {}
 
 Float::Float(double n) : Ptr(PyFloat_FromDouble(n)) {}
 

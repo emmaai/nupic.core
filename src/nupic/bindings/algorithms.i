@@ -45,7 +45,7 @@ else:
 # Capnp reader traveral limit (see capnp::ReaderOptions)
 _TRAVERSAL_LIMIT_IN_WORDS = 1 << 63
 
-_ALGORITHMS = _algorithms
+_ALGORITHMS = algorithms
 %}
 
 %{
@@ -1525,9 +1525,9 @@ void forceRetentionOfImageSensorLiteLibrary(void) {
       PyObject* key;
       if (it->first == -1)
       {
-        key = PyString_FromString("actualValues");
+        key = PyBytes_FromString("actualValues");
       } else {
-        key = PyInt_FromLong(it->first);
+        key = PyLong_FromLong(it->first);
       }
 
       PyObject* value = PyList_New(it->second->size());
@@ -1689,7 +1689,7 @@ void forceRetentionOfImageSensorLiteLibrary(void) {
     PyObject *list = PyList_New(cellIdxs.size());
     for (size_t i = 0; i < cellIdxs.size(); i++)
     {
-      PyObject *pyIdx = PyInt_FromLong(cellIdxs[i]);
+      PyObject *pyIdx = PyLong_FromLong(cellIdxs[i]);
       PyList_SET_ITEM(list, i, pyIdx);
     }
     return list;

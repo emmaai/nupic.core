@@ -38,7 +38,7 @@ RELEASE_FOLDER = "numenta/nupic.core/releases/nupic.bindings"
 def upload(artifactsBucket, wheelFileName, wheelPath):
   key = Key(artifactsBucket)
   key.key = "%s/%s" % (RELEASE_FOLDER, wheelFileName)
-  print "Uploading %s to %s/%s..." % (wheelFileName, BUCKET, RELEASE_FOLDER)
+  print("Uploading %s to %s/%s..." % (wheelFileName, BUCKET, RELEASE_FOLDER))
   key.set_contents_from_filename(wheelPath)
 
 

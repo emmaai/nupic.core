@@ -67,7 +67,7 @@ public:
     kj::Array<capnp::word> array = capnp::messageToFlatArray(message); // copy
     kj::ArrayPtr<kj::byte> byteArray = array.asBytes();
     PyObject *result =
-        PyString_FromStringAndSize((const char *)byteArray.begin(),
+        PyUnicode_FromStringAndSize((const char *)byteArray.begin(),
                                    byteArray.size()); // copy
     return result;
 #else
@@ -96,7 +96,7 @@ public:
 
     // NOTE: srcBytes will be set to point to the internal buffer inside
     // pyRegionProtoBytes'
-    PyString_AsStringAndSize(const_cast<PyObject *>(pyBytes),
+    PyBytes_AsStringAndSize(const_cast<PyObject *>(pyBytes),
                              const_cast<char **>(&srcBytes), &srcNumBytes);
 
     if (srcNumBytes % sizeof(capnp::word) != 0) {

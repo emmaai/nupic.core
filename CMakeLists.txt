@@ -48,6 +48,14 @@ endif()
 #
 # Global NuPIC CMake options
 #
+set(CMAKE_INSTALL_PREFIX $ENV{PYTHONUSERBASE})
+set(PYTHON_EXECUTABLE "python3")
+execute_process(COMMAND python3-config --prefix
+    OUTPUT_VARIABLE python-prefix OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+set(PYTHON_LIBRARIES "${python-prefix}/lib/libpython3.6m.so")
+set(PYTHON_INCLUDE_DIRS "${python-prefix}/include/python3.6m")
+
 option(NUPIC_BUILD_PYEXT_MODULES
        "Turn on building of python extension modules for nupic.bindings; turn off to build only static nupic_core lib with full symbol visibility."
        ON)

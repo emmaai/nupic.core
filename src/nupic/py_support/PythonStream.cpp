@@ -47,5 +47,5 @@ PyObject *SharedPythonOStream::close() {
   if (ss_.str().length() > target_size_)
     throw std::runtime_error("Stream output larger than allocated buffer.");
 
-  return PyString_FromStringAndSize(ss_.str().c_str(), ss_.str().length());
+  return PyUnicode_FromStringAndSize(ss_.str().c_str(), ss_.str().length());
 }

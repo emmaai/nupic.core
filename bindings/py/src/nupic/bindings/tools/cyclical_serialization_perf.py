@@ -66,7 +66,7 @@ def _runTest():
   # Measure serialization
   startSerializationTime = time.time()
 
-  for i in xrange(_SERIALIZATION_LOOPS):
+  for i in range(_SERIALIZATION_LOOPS):
     # NOTE pycapnp's builder.from_dict (used in nupic.bindings) leaks
     # memory if called on the same builder more than once, so we construct a
     # fresh builder here
@@ -92,7 +92,7 @@ def _runTest():
 
     numReads = min(_DESERIALIZATION_LOOPS - deserializationCount,
                    _MAX_DESERIALIZATION_LOOPS_PER_READER)
-    for _ in xrange(numReads):
+    for _ in range(numReads):
       engine.Network.read(readerProto)
 
     deserializationCount += numReads
@@ -100,13 +100,13 @@ def _runTest():
   elapsedDeserializationTime = time.time() - startDeserializationTime
 
   # Print report
-  print _SERIALIZATION_LOOPS, "Serialization loops in", \
-        elapsedSerializationTime, "seconds."
-  print "\t", elapsedSerializationTime/_SERIALIZATION_LOOPS, "seconds per loop."
+  print(_SERIALIZATION_LOOPS, "Serialization loops in", \
+        elapsedSerializationTime, "seconds.")
+  print("\t", elapsedSerializationTime/_SERIALIZATION_LOOPS, "seconds per loop.")
 
-  print deserializationCount, "Deserialization loops in", \
-        elapsedDeserializationTime, "seconds."
-  print "\t", elapsedDeserializationTime/deserializationCount, "seconds per loop."
+  print(deserializationCount, "Deserialization loops in", \
+        elapsedDeserializationTime, "seconds.")
+  print("\t", elapsedDeserializationTime/deserializationCount, "seconds per loop.")
 
 
 

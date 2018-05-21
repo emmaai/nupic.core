@@ -57,7 +57,7 @@ def _downloadArtifacts(artifacts, artifactDir):
     artifactFilename = artifactUrl.split("/")[-1]
     outputPath = os.path.join(artifactDir, artifactFilename)
 
-    print "Downloading artifact from URL: ", artifactUrl
+    print("Downloading artifact from URL: ", artifactUrl)
     r = requests.get(artifactUrl, stream=True)
     r.raise_for_status()
     if r.status_code != 200:
@@ -71,7 +71,7 @@ def _downloadArtifacts(artifacts, artifactDir):
 
 def _checkStatus(platform, sha):
   formattedUrl = STATUS_URL.format(sha=sha)
-  print "Getting status from URL: {}".format(formattedUrl)
+  print("Getting status from URL: {}".format(formattedUrl))
   response = requests.get(formattedUrl)
   nupicCoreStatus = response.json()["numenta/nupic.core"]
 
@@ -89,7 +89,7 @@ def _checkStatus(platform, sha):
 
 def _parseArgs():
   parser = argparse.ArgumentParser(__doc__)
-  parser.add_argument("--platform", required=True, choices=PLATFORMS.keys())
+  parser.add_argument("--platform", required=True, choices=list(PLATFORMS.keys()))
   parser.add_argument("--sha", required=True,
                       help="Commit SHA to fetch artifacts for.")
   parser.add_argument("--artifactDir", default="",
@@ -113,20 +113,20 @@ def main():
   artifacts = None
   timeout = time.time() + MAX_WAIT
   while time.time() < timeout:
-    print "Checking status... ",
+    print("Checking status... ", end=' ')
     status, artifacts = _checkStatus(platform, sha)
     if status == _Status.SUCCESS:
-      print "Build succeeded."
+      print("Build succeeded.")
       break
     elif status == _Status.PENDING or status == _Status.MISSING:
-      print "Build is pending or not started. Waiting for {} seconds...".format(RETRY_DELAY)
+      print("Build is pending or not started. Waiting for {} seconds...".format(RETRY_DELAY))
       time.sleep(RETRY_DELAY)
       continue
     elif status == _Status.FAILURE:
-      print "Build failed."
+      print("Build failed.")
       sys.exit(-1)
     elif status == _Status.ERROR:
-      print "Build errored."
+      print("Build errored.")
       sys.exit(-1)
     else:
       raise ValueError("Unknown build status: {}".format(status))

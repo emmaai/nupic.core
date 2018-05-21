@@ -110,6 +110,7 @@ set(EXTERNAL_LINKER_FLAGS_OPTIMIZED)
 set(EXTERNAL_STATICLIB_CMAKE_DEFINITIONS_OPTIMIZED)
 set(EXTERNAL_STATICLIB_CONFIGURE_DEFINITIONS_OPTIMIZED)
 
+
 # Identify platform "bitness".
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
   set(BITNESS 64)
@@ -140,7 +141,8 @@ endif()
 if(UNIX) # or UNIX like (i.e. APPLE and CYGWIN)
   set(COMMON_COMPILER_DEFINITIONS
       ${COMMON_COMPILER_DEFINITIONS}
-      -DHAVE_UNISTD_H)
+      -DHAVE_UNISTD_H
+      )
 elseif(MSVC OR MSYS OR MINGW)
   set(COMMON_COMPILER_DEFINITIONS
       ${COMMON_COMPILER_DEFINITIONS}
@@ -217,10 +219,10 @@ if(NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   endif()
 
   if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND NOT MINGW)
-    set(optimization_flags_cc "${optimization_flags_cc} -fuse-ld=gold")
+      #set(optimization_flags_cc "${optimization_flags_cc} -fuse-ld=ld")
     # NOTE -flto must go together in both cc and ld flags; also, it's presently incompatible
     # with the -g option in at least some GNU compilers (saw in `man gcc` on Ubuntu)
-    set(optimization_flags_cc "${optimization_flags_cc} -fuse-linker-plugin -flto-report -flto") #TODO fix LTO for clang
+    set(optimization_flags_cc "${optimization_flags_cc} -flto-report -flto") #TODO fix LTO for clang
     set(optimization_flags_lt "${optimization_flags_lt} -flto") #TODO LTO for clang too
   endif()
 endif()
@@ -311,20 +313,20 @@ endif()
 IF(UNIX AND CMAKE_COMPILER_IS_GNUCXX AND (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Debug") AND
       (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.9" OR
        CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL "4.9"))
-    set(CMAKE_AR "gcc-ar")
-    set(CMAKE_RANLIB "gcc-ranlib")
+    set(CMAKE_AR "ar")
+    set(CMAKE_RANLIB "ranlib")
     # EXTERNAL_STATICLIB_CMAKE_DEFINITIONS_OPTIMIZED duplicates settings for
     # CMAKE_AR and CMAKE_RANLIB. This is a workaround for a CMAKE bug
     # (https://gitlab.kitware.com/cmake/cmake/issues/15547) that prevents
     # the correct propagation of CMAKE_AR and CMAKE_RANLIB variables to all
     # externals
     list(APPEND EXTERNAL_STATICLIB_CMAKE_DEFINITIONS_OPTIMIZED
-         -DCMAKE_AR:PATH=gcc-ar
-         -DCMAKE_RANLIB:PATH=gcc-ranlib)
+         -DCMAKE_AR:PATH=ar
+         -DCMAKE_RANLIB:PATH=ranlib)
     # And ditto for externals that use the configure-based build system
     list(APPEND EXTERNAL_STATICLIB_CONFIGURE_DEFINITIONS_OPTIMIZED
-         AR=gcc-ar
-         RANLIB=gcc-ranlib)
+         AR=ar
+         RANLIB=ranlib)
 ENDIF()
 
 #
@@ -398,6 +400,8 @@ message(STATUS "INTERNAL_LINKER_FLAGS_OPTIMIZED=${INTERNAL_LINKER_FLAGS_OPTIMIZE
 message(STATUS "EXTERNAL_C_FLAGS_UNOPTIMIZED=${EXTERNAL_C_FLAGS_UNOPTIMIZED}")
 message(STATUS "EXTERNAL_C_FLAGS_OPTIMIZED=${EXTERNAL_C_FLAGS_OPTIMIZED}")
 message(STATUS "PYEXT_LINKER_FLAGS_OPTIMIZED=${PYEXT_LINKER_FLAGS_OPTIMIZED}")
+message(STATUS "PYTHON_LIBRARIES=${PYTHON_LIBRARIES}")
+message(STATUS "PYTHON_INCLUDE_DIRS=${PYTHON_INCLUDE_DIRS}")
 message(STATUS "EXTERNAL_CXX_FLAGS_UNOPTIMIZED=${EXTERNAL_CXX_FLAGS_UNOPTIMIZED}")
 message(STATUS "EXTERNAL_CXX_FLAGS_OPTIMIZED=${EXTERNAL_CXX_FLAGS_OPTIMIZED}")
 message(STATUS "EXTERNAL_LINKER_FLAGS_UNOPTIMIZED=${EXTERNAL_LINKER_FLAGS_UNOPTIMIZED}")

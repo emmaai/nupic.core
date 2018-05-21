@@ -78,17 +78,17 @@ TEST_F(PyHelpersTest, pyPtrConstructionAssign) {
 
 TEST_F(PyHelpersTest, pyString) {
   py::String ps1(std::string("123"));
-  ASSERT_TRUE(PyString_Check(ps1) != 0);
+  ASSERT_TRUE(PyBytes_Check(ps1) != 0);
 
   py::String ps2("123", size_t(3));
-  ASSERT_TRUE(PyString_Check(ps2) != 0);
+  ASSERT_TRUE(PyBytes_Check(ps2) != 0);
 
   py::String ps3("123");
-  ASSERT_TRUE(PyString_Check(ps3) != 0);
+  ASSERT_TRUE(PyBytes_Check(ps3) != 0);
 
-  std::string s1(PyString_AsString(ps1));
-  std::string s2(PyString_AsString(ps2));
-  std::string s3(PyString_AsString(ps3));
+  std::string s1(PyBytes_AsString(ps1));
+  std::string s2(PyBytes_AsString(ps2));
+  std::string s3(PyBytes_AsString(ps3));
   std::string expected("123");
   ASSERT_TRUE(s1 == expected);
   ASSERT_TRUE(s2 == expected);
@@ -98,7 +98,7 @@ TEST_F(PyHelpersTest, pyString) {
   ASSERT_TRUE(std::string(ps2) == expected);
   ASSERT_TRUE(std::string(ps3) == expected);
 
-  PyObject *p = PyString_FromString("777");
+  PyObject *p = PyBytes_FromString("777");
   py::String ps4(p);
   ASSERT_TRUE(std::string(ps4) == std::string("777"));
 }

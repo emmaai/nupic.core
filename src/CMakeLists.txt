@@ -189,8 +189,8 @@ set_target_properties(${src_lib_static_gtest}
 #
 # Locate Python artifacts
 #
-find_package(PythonLibs REQUIRED)
-include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
+#find_package(PythonLibs REQUIRED)
+#include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS})
 
 message(STATUS "PYTHON_EXECUTABLE   = ${PYTHON_EXECUTABLE}")
 message(STATUS "PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
@@ -633,6 +633,7 @@ if (NUPIC_BUILD_PYEXT_MODULES)
       -outputtuple
       -castmode
       -nosafecstrings
+      -py3
       -w402
       -w503
       -w511
@@ -732,7 +733,7 @@ if (NUPIC_BUILD_PYEXT_MODULES)
     #
 
     # Note: swig_add_module outputs ${swig_generated_file_fullname}
-    swig_add_module(${MODULE_NAME} python ${source_interface_file})
+    swig_add_library(${MODULE_NAME} LANGUAGE python SOURCES ${source_interface_file})
 
     set_source_files_properties(
       ${swig_generated_file_fullname} PROPERTIES
@@ -753,7 +754,12 @@ if (NUPIC_BUILD_PYEXT_MODULES)
     # libraries, such as -static-libstdc++, and limits the shared object's
     # symbol visibility to only the python extension's init function. NOTE Not
     # sure what, if anything, to do for MSVC at this time.
-    set(extension_init_func "init${real_target}")
+    message(STATUS "python version version=${PYTHON_VERSION_MAJOR}")
+    if(${PYTHON_VERSION_MAJOR}$ EQUAL 3)
+        set(extension_init_func "PyInit_${real_target}")
+    elseif(${PYTHON_VERSION_MAJOR}$ EQUAL 2)
+        set(extension_init_func "init${real_target}")
+    endif()
 
     if("${PLATFORM}" STREQUAL "darwin")
       set(link_flags

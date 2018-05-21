@@ -1,4 +1,4 @@
-﻿# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 # Numenta Platform for Intelligent Computing (NuPIC)
 # Copyright (C) 2015, Numenta, Inc.  Unless you have an agreement
 # with Numenta, Inc., for a separate license for this software code, the
@@ -206,7 +206,7 @@ if __name__ == "__main__":
       "..", "..", "src", "nupic", "proto", "*.capnp"))):
     shutil.copy(protoPath, destDir)
 
-  print "\nSetup SWIG Python module"
+  print("\nSetup SWIG Python module")
   setup(
     name="nupic.bindings",
     version=getVersion(),

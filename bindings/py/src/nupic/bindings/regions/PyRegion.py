@@ -47,7 +47,7 @@ class DictReadOnlyWrapper(collections.Mapping):
   def __getitem__(self, key):
     return self._d[key]
 
-class PyRegion(object):
+class PyRegion(object, metaclass=ABCMeta):
   """
   PyRegion provides services to its sub-classes (the actual regions):
 
@@ -97,8 +97,6 @@ class PyRegion(object):
   * :meth:`~nupic.bindings.regions.PyRegion.PyRegion.executeMethod`
 
   """
-
-  __metaclass__ = ABCMeta
 
 
   @classmethod

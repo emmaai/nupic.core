@@ -35,7 +35,7 @@ setupdir = os.getcwd()
 egginfo = "pip-egg-info"
 
 if not os.path.exists(egginfo) and os.path.exists(os.path.join("../..", egginfo)):
-  print "Symlinking pip-egg-info"
+  print("Symlinking pip-egg-info")
   os.symlink(os.path.join("../..", egginfo), os.path.join(REPO_DIR, "bindings/py", egginfo))
 
 __file__ = os.path.join(setupdir, filename)
@@ -55,4 +55,4 @@ def replacement_run(self):
   self.find_sources()
 
 egg_info.egg_info.run = replacement_run
-execfile(__file__)
+exec(compile(open(__file__).read(), __file__, 'exec'))

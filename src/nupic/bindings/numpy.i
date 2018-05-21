@@ -119,8 +119,8 @@ http://mail.scipy.org/pipermail/numpy-discussion/2008-October/038143.html
     if (py_obj == NULL          ) return "C NULL value";
     if (py_obj == Py_None       ) return "Python None" ;
     if (PyCallable_Check(py_obj)) return "callable"    ;
-    if (PyString_Check(  py_obj)) return "string"      ;
-    if (PyInt_Check(     py_obj)) return "int"         ;
+    if (PyBytes_Check(  py_obj)) return "string"      ;
+    if (PyLong_Check(     py_obj)) return "int"         ;
     if (PyFloat_Check(   py_obj)) return "float"       ;
     if (PyDict_Check(    py_obj)) return "dict"        ;
     if (PyList_Check(    py_obj)) return "list"        ;
@@ -1307,7 +1307,7 @@ http://mail.scipy.org/pipermail/numpy-discussion/2008-October/038143.html
   (PyObject * array = NULL)
 {
   npy_intp dims[1];
-  if (!PyInt_Check($input))
+  if (!PyLong_Check($input))
   {
     const char* typestring = pytype_string($input);
     PyErr_Format(PyExc_TypeError,
@@ -1315,7 +1315,7 @@ http://mail.scipy.org/pipermail/numpy-discussion/2008-October/038143.html
                  typestring);
     SWIG_fail;
   }
-  $2 = (DIM_TYPE) PyInt_AsLong($input);
+  $2 = (DIM_TYPE) PyLong_AsLong($input);
   dims[0] = (npy_intp) $2;
   array = PyArray_SimpleNew(1, dims, DATA_TYPECODE);
   if (!array) SWIG_fail;
@@ -1335,7 +1335,7 @@ http://mail.scipy.org/pipermail/numpy-discussion/2008-October/038143.html
   (PyObject * array = NULL)
 {
   npy_intp dims[1];
-  if (!PyInt_Check($input))
+  if (!PyLong_Check($input))
   {
     const char* typestring = pytype_string($input);
     PyErr_Format(PyExc_TypeError,
@@ -1343,7 +1343,7 @@ http://mail.scipy.org/pipermail/numpy-discussion/2008-October/038143.html
                  typestring);
     SWIG_fail;
   }
-  $1 = (DIM_TYPE) PyInt_AsLong($input);
+  $1 = (DIM_TYPE) PyLong_AsLong($input);
   dims[0] = (npy_intp) $1;
   array = PyArray_SimpleNew(1, dims, DATA_TYPECODE);
   if (!array) SWIG_fail;

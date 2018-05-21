@@ -170,7 +170,7 @@ class TestNode(PyRegion):
       commands=dict()
     )
 
-    print result
+    print(result)
     return result
 
 
@@ -208,7 +208,7 @@ class TestNode(PyRegion):
     self.outputElementCount = 2 # used for computation
     self._delta = 1
     self._iter = 0
-    for i in xrange(0,4):
+    for i in range(0,4):
       self.parameters["int64ArrayParam"][i] = i*64
 
 
@@ -223,7 +223,7 @@ class TestNode(PyRegion):
 
 
   def initialize(self):
-    print 'TestNode.initialize() here.'
+    print('TestNode.initialize() here.')
 
 
   def compute(self, inputs, outputs):
@@ -238,7 +238,7 @@ class TestNode(PyRegion):
 
   def getParameterArrayCount(self, name, index):
     assert name.endswith('ArrayParam')
-    print 'len(self.parameters[%s]) = %d' % (name, len(self.parameters[name]))
+    print('len(self.parameters[%s]) = %d' % (name, len(self.parameters[name])))
     return len(self.parameters[name])
 
 

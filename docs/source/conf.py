@@ -54,8 +54,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'NuPIC Core'
-copyright = u'2017, Numenta'
+project = 'NuPIC Core'
+copyright = '2017, Numenta'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -204,8 +204,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'NuPICCore.tex', u'NuPIC Core Documentation',
-   u'Numenta', 'manual'),
+  ('index', 'NuPICCore.tex', 'NuPIC Core Documentation',
+   'Numenta', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -234,8 +234,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'nupiccore', u'NuPIC Core Documentation',
-     [u'Numenta'], 1)
+    ('index', 'nupiccore', 'NuPIC Core Documentation',
+     ['Numenta'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -248,8 +248,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'NuPICCore', u'NuPIC Core Documentation',
-   u'Numenta', 'NuPICCore', 'One line description of project.',
+  ('index', 'NuPICCore', 'NuPIC Core Documentation',
+   'Numenta', 'NuPICCore', 'One line description of project.',
    'Miscellaneous'),
 ]
 
